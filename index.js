@@ -68,5 +68,3 @@ client.login(token);
 exports.set_prefix = function (new_prefix) {
     PREFIX = new_prefix
 }
-
-// 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
