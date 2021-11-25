@@ -1,15 +1,25 @@
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
+const { clientId, guildId, token } = require('./config.json'); // Sensitive Data
+
+
+var PREFIX = '!';           // Prefix to call the Bot
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-// Sensitive Data
-const { clientId, guildId, token } = require('./config.json');
 
+const callEmbed = new MessageEmbed()
+	.setColor('#0099ff')
+	.setTitle('Bootstrap - O Escolhedor')
+	.setURL('https://github.com/FBachini/Bootstrap')
+	.setAuthor('Filipão')
+	.setDescription('A Indecisão acabou, a partir daqui o jogo sempre é escolhido com sabedoria')
+    .addFields(
+        { name: 'Prefixo', value: PREFIX},
+        { name: 'Para outros comandos', value: PREFIX + "help" },
+	)
 
-// Prefix to call the Bot
-var PREFIX = '!';
 
 // Valid Commands
-const cmds = ['v','vote','p', 'prefix','closedvote', 'cv'];
+const cmds = ['v','vote','p', 'prefix','closedvote', 'cv', 'disconnect', 'd', 'help'];
 const Commands = require('./commands/cmd.js');
 
 // When the bot is connected to Discord, log to console.
@@ -27,7 +37,7 @@ client.on('messageCreate', async msg => {
     // Search in messages if bot was Mentioned "@Bootstrap"
     if (botWasMentioned) {
         try {
-            await msg.reply('Bootstrap chegando pra votar o próprio nome\nOu não\nO prefixo é ' + PREFIX);
+            await msg.reply({ embeds: [callEmbed] });
         } catch (err) {
             console.warn('Error on Mention Response');
             console.warn(err);
