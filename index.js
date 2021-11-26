@@ -64,7 +64,7 @@ client.on('messageCreate', async msg => {
 
     try {
       // Send commands to function handler
-      Commands.handler(cmd, args, msg)
+      Commands.handler(cmd, args, msg, client.user.id)
 
     } catch (err) {
       console.warn('Error handling command');

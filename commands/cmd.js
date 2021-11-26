@@ -1,5 +1,6 @@
-var Main = require('../index.js');
-var Voter = require('./voter.js');
+const Main = require('../index.js');
+const Voter = require('./voter.js');
+const Utils = require('./utils.js')
 const { MessageEmbed } = require('discord.js');
 
 const helpEmbed = new MessageEmbed()
@@ -12,20 +13,20 @@ const helpEmbed = new MessageEmbed()
         { name: "disconnect  (d) \"name\"", value: "Desconecta a pessoa desejada"},
     )
 
-exports.handler = async function(cmd, args, msg) {
+exports.handler = async function(cmd, args, msg, botid) {
     channel = msg.channel           // Channel where the bot was called
 
     switch (cmd) {
         case 'v':
         case 'vote':                                // Start Vote
-            channel.send("Começando a Votação")
-            Voter.vote()
+            channel.send("Começando a Votação Aberta")
+            Voter.vote(msg.channel, botid)
             break;
 
         case 'closedvote':                          // Start Closed Vote
         case 'cv':
             channel.send("Começando a Votação Fechada")
-            Voter.closedvote()
+            Voter.closedvote(msg.channel, botid)
             return;
 
         case 'prefix':
@@ -43,12 +44,25 @@ exports.handler = async function(cmd, args, msg) {
 
         case 'help':
             channel.send({ embeds: [helpEmbed] })
+            return;
 
         case 'disconnect':
         case 'd':
-            name = args()
-            channel.send("https://tenor.com/view/gotta-go-gtg-peace-out-gif-11015153")
-            msg.member.voice.setChannel(null);
+            member = Utils.getUserFromMention(args[0], msg)
+
+
+            if(msg.author.username == 'Victão'){
+                channel.send("https://tenor.com/view/bye-slide-baby-later-peace-out-gif-12999722")
+                msg.member.voice.setChannel(null);
+            }
+            else{
+                try {
+                    channel.send("https://tenor.com/view/gotta-go-gtg-peace-out-gif-11015153")
+                    member.voice.setChannel(null);
+                } catch (e) {
+                    console.log("Member Undefined")
+                }
+            }
 
         default:
             return

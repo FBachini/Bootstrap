@@ -1,4 +1,4 @@
-exports.getUserFromMention = function (mention) {
+exports.getUserFromMention = function(mention, msg) {
 	if (!mention) return;
 
 	if (mention.startsWith('<@') && mention.endsWith('>')) {
@@ -8,6 +8,6 @@ exports.getUserFromMention = function (mention) {
 			mention = mention.slice(1);
 		}
 
-		return client.users.cache.get(mention);
+		return msg.guild.members.cache.get(mention);
 	}
 }
