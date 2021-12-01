@@ -5,7 +5,7 @@ const { MessageEmbed } = require('discord.js');
 
 const helpEmbed = new MessageEmbed()
     .setColor('#0099ff')
-    .setTitle('Comandos')
+    .setTitle('Help')
     .setDescription('Os Comandos que este bot oferece são:')
     .addFields(
         { name: "vote  (v)", value: "Votação Aberta (Permite Repetição)"},
@@ -14,7 +14,7 @@ const helpEmbed = new MessageEmbed()
     )
 
 exports.handler = async function(cmd, args, msg, botid) {
-    channel = msg.channel           // Channel where the bot was called
+    channel = msg.channel                           // Channel where the bot was called
 
     switch (cmd) {
         case 'v':
@@ -38,7 +38,7 @@ exports.handler = async function(cmd, args, msg, botid) {
                 return;
             }
 
-            Main.set_prefix(args[0])            // Simple Prefixes are allowed
+            Main.set_prefix(args[0])                // Simple Prefixes are allowed
             channel.send("Prefixo atualizado")
             return;
 
@@ -46,7 +46,7 @@ exports.handler = async function(cmd, args, msg, botid) {
             channel.send({ embeds: [helpEmbed] })
             return;
 
-        case 'disconnect':
+        case 'disconnect':                      // Disconnect from Channel        
         case 'd':
             member = Utils.getUserFromMention(args[0], msg)
 
