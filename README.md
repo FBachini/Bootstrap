@@ -18,3 +18,4 @@ To run the bot you need [node](https://nodejs.org/en/download/) installed then j
 
 `sudo node index.js`
 
+The name is not defined, and someday the bot can vote his own name, therefore, who chooses the [name](https://en.wikipedia.org/wiki/Causal_loop)? The Developer or the Bot 
