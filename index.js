@@ -11,11 +11,7 @@ const callEmbed = new MessageEmbed()
 	.setTitle('Bootstrap - O Escolhedor')
 	.setURL('https://github.com/FBachini/Bootstrap')
 	.setAuthor('Filipão')
-	.setDescription('A Indecisão acabou, a partir daqui o jogo sempre é escolhido com sabedoria')
-    .addFields(
-        { name: 'Prefixo', value: PREFIX},
-        { name: 'Para outros comandos', value: PREFIX + "help" },
-	)
+	.setDescription('A Indecisão acabou, a partir daqui o jogo sempre é escolhido com sabedoria aleatória')    
 
 
 // Valid Commands
@@ -37,6 +33,12 @@ client.on('messageCreate', async msg => {
     // Search in messages if bot was Mentioned "@Bootstrap"
     if (botWasMentioned) {
         try {
+            callEmbed.fields = [];
+            callEmbed.setThumbnail(client.user.avatarURL())
+            callEmbed.addFields(
+                { name: 'Prefixo', value: PREFIX},
+                { name: 'Para outros comandos', value: PREFIX + "help" },
+            )
             await msg.reply({ embeds: [callEmbed] });
         } catch (err) {
             console.warn('Error on Mention Response');

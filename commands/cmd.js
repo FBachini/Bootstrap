@@ -19,13 +19,13 @@ exports.handler = async function(cmd, args, msg, botid) {
     switch (cmd) {
         case 'v':
         case 'vote':                                // Start Vote
-            channel.send("Começando a Votação Aberta")
+            channel.send("Começando a Votação Aberta\n- Utilize o prefixo v para adicionar jogos (Ex.: v Jogo)\n- Para finalizar utilize \"v votar\"")
             Voter.vote(msg.channel, botid)
             break;
 
         case 'closedvote':                          // Start Closed Vote
         case 'cv':
-            channel.send("Começando a Votação Fechada")
+            channel.send("Começando a Votação Fechada\n- Utilize o prefixo cv para adicionar jogos (Ex.: cv Jogo)\n- Para finalizar utilize \"cv votar\"")
             Voter.closedvote(msg.channel, botid)
             return;
 
@@ -34,7 +34,7 @@ exports.handler = async function(cmd, args, msg, botid) {
 
             if(args.length > 1 || args[0].length > 2){
                 channel.send("Pera lá amigão, comando simples né\nTome um tempo para pensar em seus atos")
-                msg.member.voice.setChannel(null);  // Kick user from voice to think of his actions
+                msg.member.voice.setChannel(null);  // Kick user from voice to think on his actions
                 return;
             }
 

@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
 
 function capitalize(string) {
     let capital_str = ''
@@ -18,30 +18,35 @@ exports.closedvote = function (channel, botid) {
 // Closed Votation, Repetition is not Allowed
 
     const voteEmbed = new MessageEmbed()
-    .setColor('#0099ff')
-    .setTitle('Votação Encerrada')
-    .setDescription('Os jogos escolhidos foram:')
+        .setColor('#0099ff')
+        .setTitle('Votação Fechada')
+        .setDescription('Os jogos escolhidos foram:')
 
     const votes = []
-    const collector = channel.createMessageCollector();                             // Message Collector
+    const collector = channel.createMessageCollector();                     // Message Collector
     console.log("Votação Fechada");
-    collector.on('collect', async m => {            // On message collected
+    collector.on('collect', async m => {                                    // On message collected
+            msg = m.content.toLowerCase()
             if(m.author.id == botid){                                       // If is bot message
                 return;
             }
-            else if (m.content.toLowerCase() === 'votar'){                  // Finish the collector
-                collector.stop()
-            }
-            else{        
-                msg = m.content.toLowerCase()
+            else if (msg.startsWith('cv')){                                 // Finish the collector
+                choose = msg.replace("cv ", "")
                 
-                if(votes.find(v => v == msg) == undefined){
-                    m.react('👍');                                         // Tests if game is already in the votation
-                    votes.push(msg);
-                    voteEmbed.addField(String(votes.length), capitalize(msg) );
+                if(choose == 'votar'){
+                    collector.stop()
+                    return
+                }                   
+                
+                if(votes.find(v => v == choose) == undefined){
+                    m.react('👍');                                          // Tests if game is already in the votation
+                    votes.push(choose);
+                    voteEmbed.addField(String(votes.length), capitalize(choose));
+                    channel.send({ embeds: [voteEmbed] })  
+
                 }
                 else{
-                    m.react('❌')                           // If already is, do not append to vote list
+                    m.react('❌')                                           // If already is, do not append to vote list
                     try {
                         await m.member.voice.setMute(true);
                     }
@@ -50,11 +55,11 @@ exports.closedvote = function (channel, botid) {
                     }
                         
                 }
-                
             }
+                
        }
     );
-    collector.on('end', async collected => {         // When collector is finished
+    collector.on('end', async collected => {                                        // When collector is finished
             const select = votes[Math.floor(Math.random() * votes.length)];         // Random Selection
             channel.send({ embeds: [voteEmbed] })                                   // Show Games
             console.log(votes)
@@ -67,9 +72,10 @@ exports.closedvote = function (channel, botid) {
 }
 
 exports.vote = function (channel, botid){
+// Open Votation
     const voteEmbed = new MessageEmbed()
     .setColor('#0099ff')
-    .setTitle('Votação Fechada Encerrada')
+    .setTitle('Votação Aberta')
     .setDescription('Os jogos escolhidos foram:')
 
 
@@ -77,30 +83,32 @@ exports.vote = function (channel, botid){
     const collector = channel.createMessageCollector();
     console.log("Votação Aberta");
     collector.on('collect', m => {
-                    if(m.author.id == botid){
-                        return;
-                    }
-                    else if (m.content.toLowerCase() === 'votar'){
-                        collector.stop()
-                    }
-                    else{
-                        msg = m.content.toLowerCase()
+        msg = m.content.toLowerCase()
+        if(m.author.id == botid){                                       // If is bot message
+            return;
+        }             
+        else if (msg.startsWith('v')){
+            choose = msg.replace("v ", "")
+                
+            if(choose == 'votar'){
+                collector.stop()
+                return
+            }             
 
-                        m.react('👍');
-                        votes.push(msg);
-                        voteEmbed.addField(String(votes.length), capitalize(m.content));
-                    }
-                }
-                );
+            m.react('👍');
+            votes.push(msg);
+            voteEmbed.addField(String(votes.length), capitalize(m.content));
+            channel.send({ embeds: [voteEmbed] }) 
+        }
+    }
+    );
     collector.on('end', async collected => {
                     const select = votes[Math.floor(Math.random() * votes.length)];         // Random Selection
                     channel.send({ embeds: [voteEmbed] })                                   // Show Games
                     channel.send("Com os poderes a mim concedidos")
                     await sleep(100);                                                       // Dramatic Pause
-                    channel.send("\nSeleciono:\n" + capitalize(select));                     // Selects
+                    channel.send("\nSeleciono:\n" + capitalize(select));                    // Selects
                 }
                 );
-
-
 
 }
