@@ -10,7 +10,7 @@ const callEmbed = new MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Bootstrap - O Escolhedor')
 	.setURL('https://github.com/FBachini/Bootstrap')
-	.setAuthor('Filipão')
+	.setAuthor('Filipe Bachini')
 	.setDescription('A Indecisão acabou, a partir daqui o jogo sempre é escolhido com sabedoria aleatória')    
 
 
