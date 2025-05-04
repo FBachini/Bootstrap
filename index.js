@@ -15,7 +15,7 @@ const callEmbed = new MessageEmbed()
 
 
 // Valid Commands
-const cmds = ['v','vote','p', 'prefix','closedvote', 'cv', 'disconnect', 'd'];
+const cmds = ['v','vote','p', 'prefix','closedvote', 'cv', 'disconnect', 'd', "help"];
 const Commands = require('./commands/cmd.js');
 
 // When the bot is connected to Discord, log to console.
